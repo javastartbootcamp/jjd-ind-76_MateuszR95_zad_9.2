@@ -2,7 +2,7 @@ package pl.javastart.task;
 
 public class Car extends Vehicle {
 
-    private static final double INCREASE_IN_FUEL_CONSUMPTION = 0.08;
+    private static final double INCREASE_IN_CONSUMPTION_WITH_AIR_COND_ON = 0.08;
     private static final double DISTANCE_FOR_AVERAGE_FUEL_CONSUMPTION = 100;
     private boolean airConditioningOn;
 
@@ -19,21 +19,21 @@ public class Car extends Vehicle {
         this.airConditioningOn = airConditioningOn;
     }
 
-    public double calculateAverageConsuption() {
+    public double calculateActualConsuption() {
         if (isAirConditioningOn()) {
-            return getAverageFuelConsumption() + INCREASE_IN_FUEL_CONSUMPTION;
+            return averageFuelConsumption + INCREASE_IN_CONSUMPTION_WITH_AIR_COND_ON;
         }
-        return getAverageFuelConsumption();
+        return averageFuelConsumption;
     }
 
     public double calculateRange() {
-        return getTankCapacity() * DISTANCE_FOR_AVERAGE_FUEL_CONSUMPTION / calculateAverageConsuption();
+        return tankCapacity * DISTANCE_FOR_AVERAGE_FUEL_CONSUMPTION / calculateActualConsuption();
     }
 
     @Override
     public String printInfo() {
-        return "Nazwa pojazdu: " + getName() + ", pojemność baku: " + getTankCapacity()
-                + "l, średnie spalanie na 100km: " + calculateAverageConsuption() + ", zasięg pojazdu: "
+        return "Nazwa pojazdu: " + name + ", pojemność baku: " + tankCapacity
+                + "l, średnie spalanie na 100km: " + calculateActualConsuption() + "l, zasięg pojazdu: "
                 + String.format("%.2f", calculateRange()) + "km";
     }
 }

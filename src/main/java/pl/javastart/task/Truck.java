@@ -3,8 +3,9 @@ package pl.javastart.task;
 public class Truck extends Car {
 
     private double loadWeight;
-    private static final double INCREASE_IN_FUEL_CONSUMPTION = 1.6;
+    private static final double INCREASE_IN_CONSUMPTION_WITH_AIR_COND_ON = 1.6;
     private static final double DISTANCE_FOR_AVERAGE_FUEL_CONSUMPTION = 100;
+    private static final double INCREASE_IN_CONSUMPTION_WITH_LOAD = 0.5;
 
     public Truck(String name, double tankCapacity, double averageFuelConsumption, boolean airConditioningOn, double loadWeight) {
         super(name, tankCapacity, averageFuelConsumption, airConditioningOn);
@@ -20,23 +21,27 @@ public class Truck extends Car {
     }
 
     @Override
-    public double calculateAverageConsuption() {
-        double consumptionIncreaseWithLoad = ConsumptionWithLoadCalculator.calculateIncreaseOfConsumption(loadWeight);
+    public double calculateActualConsuption() {
+        double consumptionIncreaseWithLoad = calculateIncreaseOfConsumption(loadWeight);
         if (isAirConditioningOn()) {
-            return getAverageFuelConsumption() + INCREASE_IN_FUEL_CONSUMPTION
+            return averageFuelConsumption + INCREASE_IN_CONSUMPTION_WITH_AIR_COND_ON
                     + consumptionIncreaseWithLoad;
         } else {
-            return getAverageFuelConsumption() + consumptionIncreaseWithLoad;
+            return averageFuelConsumption + consumptionIncreaseWithLoad;
         }
     }
 
     @Override
     public double calculateRange() {
-        return getTankCapacity() * DISTANCE_FOR_AVERAGE_FUEL_CONSUMPTION / calculateAverageConsuption();
+        return tankCapacity * DISTANCE_FOR_AVERAGE_FUEL_CONSUMPTION / calculateActualConsuption();
     }
 
     @Override
     public String printInfo() {
         return super.printInfo() + ", przewożony ładunek: " + loadWeight + "kg";
+    }
+
+    private double calculateIncreaseOfConsumption(double load) {
+        return (INCREASE_IN_CONSUMPTION_WITH_LOAD * load) / DISTANCE_FOR_AVERAGE_FUEL_CONSUMPTION;
     }
 }

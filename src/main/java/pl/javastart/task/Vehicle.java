@@ -2,9 +2,9 @@ package pl.javastart.task;
 
 public class Vehicle {
 
-    private String name;
-    private double tankCapacity;
-    private double averageFuelConsumption;
+    protected String name;
+    protected double tankCapacity;
+    protected double averageFuelConsumption;
 
     public Vehicle(String name, double tankCapacity, double averageFuelConsumption) {
         this.name = name;
